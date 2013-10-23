@@ -1,0 +1,93 @@
+// ComXapHandler.idl : IDL source for ComXapHandler
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ComXapHandler.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(55D492CE-1269-4102-8079-5FC729F93FA3),
+	helpstring("IXapHandler Interface"),
+	pointer_default(unique)
+]
+interface IXapHandler : IUnknown {
+	
+	HRESULT BeginDeploy(BSTR path, 
+						BSTR productID, 
+						BSTR instanceID, 
+						BSTR offerID,
+						BOOL uninstallDisabled, 
+						BOOL preInstall,
+						DWORD license,
+						DWORD licenseLength,
+						[out, retval]DWORD *context);
+	HRESULT IsInstalled(DWORD context, [out, retval]BOOL *result);
+	HRESULT Install(DWORD context, BOOL update, BOOL debugMode, [out, retval]DWORD *result);
+	HRESULT Uninstall(DWORD context, [out, retval]DWORD *result);
+	HRESULT WaitForEvents(DWORD context, DWORD timeout, [out]DWORD *state, [out]DWORD *progress, [out]DWORD *hresult, [out, retval]DWORD *result);
+	HRESULT DecodeState(DWORD data, DWORD *state, DWORD *progress, DWORD *error);
+	HRESULT EncodeState(DWORD state, DWORD progress, DWORD error, [out, retval]DWORD *newData);
+	HRESULT EndDeploy(DWORD context);
+	HRESULT LaunchSessionByUri(BSTR uri);
+	HRESULT LaunchSession(ULONGLONG appId, BSTR tokenId);
+	HRESULT LaunchCplApplet(BSTR cplName);
+	HRESULT LaunchTask(BSTR uri, BSTR arguments);
+	HRESULT GetForegroundPageUri(BSTR *uri, BSTR *pageId);
+
+	HRESULT GetApplicationInfo(BSTR guidString, [out, retval]DWORD *result);
+	HRESULT ReleaseApplicationInfo(DWORD appInfo);
+	HRESULT ApplicationInfoGetGuid(DWORD appInfo, DWORD dwIndex, [out, retval]BSTR *outString);
+	HRESULT ApplicationInfoGetString(DWORD appInfo, DWORD dwIndex, [out, retval]BSTR *outString);
+	HRESULT ApplicationInfoGetInteger(DWORD appInfo, DWORD dwIndex, [out, retval]DWORD *result);
+	HRESULT ApplicationInfoGetInvocationInfo(DWORD appInfo, BSTR *uri, BSTR *parameters, [out, retval]BOOL *result);
+	HRESULT GetAllApplicationsIterator([out, retval]DWORD *iterator);
+	HRESULT GetAllVisibleApplicationsIterator([out, retval]DWORD *iterator);
+	HRESULT GetApplicationsOfHubTypeIterator(DWORD hubType, [out, retval]DWORD *iterator);
+	HRESULT GetNextApplication(DWORD iterator, [out, retval]DWORD *appInfo);
+	HRESULT ReleaseIterator(DWORD iterator);
+	HRESULT ReinterpreteString(BSTR oldStr, [out, retval]BSTR *str);
+	HRESULT UpdateAppIconPath(BSTR guidString, BSTR path);
+	HRESULT TerminateApplicationProcesses(BSTR guidString);
+	HRESULT GetLocale([out, retval]DWORD *result);
+
+	HRESULT GetAssocationClass(BSTR extension, int type, [out, retval]BSTR *className);
+	HRESULT SetAssocationClass(BSTR extension, BSTR className, [out, retval]BOOL *result);
+	HRESULT BackupAssocationClass(BSTR extension, [out, retval]BOOL *result);
+	HRESULT CreateAssocationClass(BSTR className, BSTR openCommand, [out, retval]BOOL *result);
+	HRESULT RemoveAssocationClass(BSTR className, [out, retval]BOOL *result);
+	HRESULT CopyFileOver(BSTR src, BSTR dest, [out, retval]BOOL *result);
+	HRESULT RemoveFile(BSTR src, [out, retval]BOOL *result);
+
+	HRESULT CreateProcess(BSTR path, BSTR arguments, BSTR accountName, DWORD *outHandle, [out, retval]BOOL *result);
+	HRESULT WaitForSingleObject7(DWORD handle, DWORD dwMilliseconds, [out, retval]DWORD *result);
+	HRESULT CloseHandle7(DWORD handle, [out, retval]BOOL *result);
+
+	HRESULT ProcessProvxmlFile(BSTR filePath, [out, retval]BOOL *result);
+	HRESULT ProcessProvxmlPlainText(BSTR provxml, [out, retval]BOOL *result);
+	HRESULT GetFileContent(BSTR filePath, [out]DWORD* bArray, [out]DWORD *dwLength);
+	HRESULT AllocMem(DWORD dwCount, [out, retval]DWORD *dwResult);
+	HRESULT FreeMem(DWORD dwPointer);
+
+};
+[
+	uuid(9D92B74F-ADFD-4372-A06F-59E4E16F2A8A),
+	version(1.0),
+	helpstring("ComXapHandler 1.0 Type Library")
+]
+library ComXapHandlerLib
+{
+	importlib("stdole2.tlb");
+	interface IDocHostUIHandlerDispatch;
+	interface IAxWinAmbientDispatchEx;
+	[
+		uuid(7E6418C7-C93F-4B82-947E-83FEA7A757CC),
+		helpstring("XapHandler Class")
+	]
+	coclass XapHandler
+	{
+		[default] interface IXapHandler;
+	};
+};

@@ -1,0 +1,26 @@
+HKCR
+{
+	ComXapHandler.XapHandler.1 = s 'XapHandler Class'
+	{
+		CLSID = s '{7E6418C7-C93F-4B82-947E-83FEA7A757CC}'
+	}
+	ComXapHandler.XapHandler = s 'XapHandler Class'
+	{
+		CLSID = s '{7E6418C7-C93F-4B82-947E-83FEA7A757CC}'
+		CurVer = s 'ComXapHandler.XapHandler.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {7E6418C7-C93F-4B82-947E-83FEA7A757CC} = s 'XapHandler Class'
+		{
+			ProgID = s 'ComXapHandler.XapHandler.1'
+			VersionIndependentProgID = s 'ComXapHandler.XapHandler'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Free'
+			}
+			'TypeLib' = s '{9D92B74F-ADFD-4372-A06F-59E4E16F2A8A}'
+		}
+	}
+}
